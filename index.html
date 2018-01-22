@@ -4,8 +4,105 @@
   <title></title>
 </head>
 <body>
-  <script>
+  <script>  
+    function playRound(playerSelection, computerSelection){
+      var ans = ""
 
+      if (playerSelection == 'rock') {
+        if (computerSelection == 'rock'){
+          ans = 'tie';
+        }
+        else if (computerSelection == 'paper'){
+          var ans = 'lose';
+        }
+        else if (computerSelection == 'scissors'){
+          ans = 'win';
+        }
+      }
+      if (playerSelection == 'paper') {
+        if (computerSelection == 'rock'){
+          ans = 'win';
+        }
+        else if (computerSelection == 'paper'){
+          var ans = 'tie';
+        }
+        else if (computerSelection == 'scissors'){
+          ans = 'lose';
+        }
+      }
+      if (playerSelection == 'scissors') {
+        if (computerSelection == 'rock'){
+          ans = 'lose';
+        }
+        else if (computerSelection == 'paper'){
+          var ans = 'win';
+        }
+        else if (computerSelection == 'scissors'){
+          ans = 'tie';
+        }
+      }
+      if (ans == 'tie'){
+        alert("You tie!  " + playerSelection + " ties " + computerSelection + ".");
+
+        return 0;
+      }
+      else if (ans == 'win'){
+        alert("You win!  " + playerSelection + " beats " + computerSelection + ".");
+
+        return 1;
+      }
+      else if (ans == 'lose'){
+        alert("You lose!  " + playerSelection + " loses to " + computerSelection + ".");
+
+        return 0;
+      }
+
+    }
+
+    function playerPlay(){
+      // Ask for user input of rock paper or scissors, returns their choice as a lowercase string
+      while(true){
+        var playerInput = prompt("Choose 'rock', 'paper', or 'scissors'.");
+        var lowerPlayer = playerInput.toLowerCase();
+
+        if ((lowerPlayer === "rock") || (lowerPlayer === "paper") || (lowerPlayer === "scissors")){
+          return lowerPlayer;
+        } else{
+          alert("please input a valid choice of 'rock', 'paper', or 'scissors'");
+        }
+      }
+    }
+
+    function computerPlay(){
+      // randomly assigns the computer a choice of rock, paper or scissors
+        var randChoice = Math.floor(Math.random() * 3)
+
+        if (randChoice == 0){
+          return 'rock';
+        } else if (randChoice == 1){
+          return 'paper';
+        } else {
+          return 'scissors';
+        }
+    }
+
+    function game(){
+      // play the game 5 times
+    var gamesPlayed = 0;
+    var totalWins = 0;
+     while (gamesPlayed <5){
+        var computerSelection = computerPlay();
+        var playerSelection = playerPlay();
+
+        totalWins += playRound(playerSelection, computerSelection);
+
+        gamesPlayed++;
+      }
+
+      alert("Thank you for playing! You won " + totalWins + " times!" )
+    }
+
+    game();
   </script>
 </body>
 </html>
