@@ -1,82 +1,85 @@
 
 function playRound(playerSelection, computerSelection){
-// run the game to determine who wins
-  console.log("started the function")
-  var ans = ""
-
-  if (playerSelection == 'rock') {
-    if (computerSelection == 'rock'){
-        ans = 'tie';
+    // Determine who wins, or if there is a tie
+    if (playerSelection === computerSelection){
+        return 'tie'
     }
-    else if (computerSelection == 'paper'){
-        var ans = 'lose';
-    }
-
-    else if (computerSelection == 'sissors'){
-         ans = 'win';
-    }
-  }
-
-  if (playerSelection == 'paper') {
-    if (computerSelection == 'rock'){
-        ans = 'win';
-    }
-    else if (computerSelection == 'paper'){
-        var ans = 'tie';
-    }
-
-    else if (computerSelection == 'sissors'){
-         ans = 'lose';
+    else if (playerSelection === 'rock'){
+        if(computerSelection === 'scissors'){
+            return 'win'
+        } else{
+            return 'lose'
+        }
+    }else if (playerSelection === 'scissors'){
+        if( computerSelection === 'paper'){
+            return 'win'
+        } else{
+            return 'lose'
+        }
+    }else if (playerSelection === 'paper'){
+        if( computerSelection === 'rock'){
+            return 'win'
+        } else{
+            return 'lose'
+        }
     }
   }
 
-  if (playerSelection == 'sissors') {
-    if (computerSelection == 'rock'){
-        ans = 'lose';
-    }
-    else if (computerSelection == 'paper'){
-        var ans = 'win';
-    }
+  function computerPlay(){
+    // randomly assigns the computer a choice of rock, paper or scissors
+      var randChoice = Math.floor(Math.random() * 3)
 
-    else if (computerSelection == 'sissors'){
-         ans = 'tie';
-    }
-  }
-
-  if (ans == 'tie'){
-    alert("You tie!  " + playerSelection + " ties " + computerSelection + ".");
-  }
-
-  else if (ans == 'win'){
-    alert("You wie!  " + playerSelection + " beats " + computerSelection + ".");
-  }
-
-  else if (ans == 'tie'){
-    alert("You lose!  " + playerSelection + " loses to " + computerSelection + ".");
-  }
-
-}
-
-function playerSelection(){
-    var playerInput = prompt("Choose 'rock', 'paper', or 'sissors'.");
-
-    var lowerPlayer = playerInput.toLowerCase();
-
-    return lowerPlayer;
-}
-
-function computerSelection(){
-    var randChoice = Math.floor(Math.random() * 3)
-
-    if (randChoice == 0){
+      if (randChoice == 0){
         return 'rock';
-    }
-    else if (randomChoice == 1){
+      } else if (randChoice == 1){
         return 'paper';
+      } else {
+        return 'scissors';
+      }
+  }
+
+function game(e){
+    // Player and computer choose
+    var playerChoice = e.target.className;
+    var computerChoice = computerPlay();
+    var determination = playRound(computerChoice, playerChoice);
+    
+    // writes to screen the results of the round
+    if (determination === 'win'){
+        const playerWin = document.querySelector('.playerWins')
+        var playerText = playerWin.innerHTML.split(' ');
+        playerText[3] = parseInt(playerText[3]) + 1;
+        playerWin.textContent = playerText.join(' ');
+    } else if (determination ==='lose'){
+        const compWin = document.querySelector('.compWins')
+        var compText = compWin.innerHTML.split(' ');
+        compText[4] = parseInt(compText[4]) + 1;
+        compWin.textContent = compText.join(' ');
+    } else {
+        const ties = document.querySelector('.ties')
+        var tieText = ties.innerHTML.split(' ');
+        tieText[3] = parseInt(tieText[3]) + 1;
+        ties.textContent = tieText.join(' ');
     }
-    else {
-        return 'sissors';
-    }
+    
 }
 
-playRound();
+function clearAll(){
+    // resets screen to start
+    const compReset = document.querySelector('.compWins');
+    const playerReset = document.querySelector('.playerWins');
+    const tieReset = document.querySelector('.ties');
+    compReset.textContent = 'The computer has won: 0 Games';
+    playerReset.textContent = 'Player has won: 0 Games';
+    tieReset.textContent = 'Number of ties: 0 Games';
+}
+
+//create event listener for refresh button
+const reset = document.querySelector('.refresh');
+reset.addEventListener('click', clearAll);
+
+//create event listeners on the 3 images
+const images = document.querySelectorAll('img');
+images.forEach(image => {
+   image.addEventListener('click', game);
+});
